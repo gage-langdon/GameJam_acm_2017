@@ -10,6 +10,9 @@ public class player : MonoBehaviour
 	private int weapon = 1;
 	private float nextFire = 0.0F;
 
+	private string id;
+	private string playerName;
+
 	public struct WeaponSystem
 	{
 		public int weapon, ammo;
@@ -49,6 +52,19 @@ public class player : MonoBehaviour
 		get { return weapon; }
 		set { weapon = value; }
 	}
+
+	public string Id
+	{
+		get { return id; }
+		set { id = value; }
+	}
+
+	public string Name
+	{
+		get { return playerName; }
+		set { playerName = value; }
+	}
+
 	public void move(Vector3 moveAmt)
 	{
 		transform.position += moveAmt * speed * Time.deltaTime;
