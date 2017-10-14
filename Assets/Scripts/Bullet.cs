@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour {
     private float speed = 20.0f;
     private int fireDirection = 1;
     private GameObject Player;
+    private bool hasFired = false;
 
     public int FireDirection
     {
@@ -16,6 +17,7 @@ public class Bullet : MonoBehaviour {
 
     public void move(Vector3 moveAmt)
     {
+        hasFired = true;
         transform.position += moveAmt * speed * Time.deltaTime;
     }
     // Update is called once per frame
@@ -26,7 +28,8 @@ public class Bullet : MonoBehaviour {
     }
     void Update ()
     {
-        FireDirection =  Player.GetComponent<player>().FireDirection;
+        if (hasFired == false)
+            FireDirection =  Player.GetComponent<player>().FireDirection;
         if (fireDirection == 1 )
           move(Vector3.right);
         else if (fireDirection == 2)

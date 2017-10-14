@@ -230,7 +230,9 @@ public class player : MonoBehaviour
             Weapon = 1;
         if (Input.GetKeyDown(KeyCode.Alpha2))
             Weapon = 2;
+
         
     }
+
 
 }
