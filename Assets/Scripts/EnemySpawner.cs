@@ -9,7 +9,6 @@ public class EnemySpawner : MonoBehaviour
 	Transform[] Spawners;
 	List<Enemy> Enemies = new List<Enemy>();
 
-	// Use this for initialization
 	void Start()
 	{
 		Spawners = GetComponentsInChildren<Transform>();

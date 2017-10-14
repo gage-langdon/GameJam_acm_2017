@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-	private float speed = 0.1f;
+	private float speed = 0.2f;
 	private bool hasHitMiddle = false;
 
 	public float Speed
@@ -17,7 +17,6 @@ public class Enemy : MonoBehaviour
 		get { return hasHitMiddle; }
 		set { hasHitMiddle = value; }
 	}
-
 	public void move(float amount)
 	{
 		transform.position = new Vector3(

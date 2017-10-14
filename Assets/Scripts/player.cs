@@ -9,7 +9,12 @@ public class player : MonoBehaviour
 	private int ammo;
 	private int weapon = 1;
 	private float nextFire = 0.0F;
-
+	public GameObject TheActualBullet;
+	public Transform BulletSpawnRight;
+	public Transform BulletSpawnLeft;
+	public Transform BulletSpawnUp;
+	public Transform BulletSpawnDown;
+	private int fireDirection = 1;
 	private string id;
 	private string playerName;
 
@@ -28,6 +33,22 @@ public class player : MonoBehaviour
 
 	WeaponSystem Pistol;
 	WeaponSystem MachineGun;
+
+	public string Id
+	{
+		get { return id; }
+		set { id = value; }
+	}
+	public string Name
+	{
+		get { return playerName; }
+		set { playerName = value; }
+	}
+	public int FireDirection
+	{
+		get { return fireDirection; }
+		set { fireDirection = value; }
+	}
 
 	public int Health
 	{
@@ -52,42 +73,47 @@ public class player : MonoBehaviour
 		get { return weapon; }
 		set { weapon = value; }
 	}
-
-	public string Id
-	{
-		get { return id; }
-		set { id = value; }
-	}
-
-	public string Name
-	{
-		get { return playerName; }
-		set { playerName = value; }
-	}
-
 	public void move(Vector3 moveAmt)
 	{
 		transform.position += moveAmt * speed * Time.deltaTime;
 	}
 
-	private void FireWeapon(int weapon)
+	private void FireWeapon(int weapon, int fireDirection)
 	{
 		if (weapon == 1)
-			Fire(Pistol.weapon, ref Pistol.ammo, Pistol.fireRate);
+			Fire(Pistol.weapon, ref Pistol.ammo, Pistol.fireRate, fireDirection);
 		else if (weapon == 2)
-			Fire(MachineGun.weapon, ref MachineGun.ammo, MachineGun.fireRate);
+			Fire(MachineGun.weapon, ref MachineGun.ammo, MachineGun.fireRate, fireDirection);
 		else
 			return;
 	}
 
-	private void Fire(int weapon, ref int ammo, float fireRate)
+	private void Fire(int weapon, ref int ammo, float fireRate, int fireDirection)
 	{
+		Transform BulletSpawn;
+		switch (fireDirection)
+		{
+			case 1:
+				BulletSpawn = BulletSpawnRight;
+				break;
+			case 2:
+				BulletSpawn = BulletSpawnLeft;
+				break;
+			case 3:
+				BulletSpawn = BulletSpawnUp;
+				break;
+			default:
+				BulletSpawn = BulletSpawnDown;
+				break;
+		}
 		switch (weapon)
 		{
 			case 1:
 				if (ammo > 0 && Time.time > nextFire)
 				{
 					nextFire = Time.time + fireRate;
+					GameObject bullet = Instantiate(TheActualBullet, BulletSpawn.position, BulletSpawn.rotation);
+
 					ammo--;
 					Debug.Log(string.Format(" Firing weapon 1. It has {0} ammo left", ammo));
 				}
@@ -106,6 +132,7 @@ public class player : MonoBehaviour
 				if (ammo > 0 && Time.time > nextFire)
 				{
 					nextFire = Time.time + fireRate;
+					Instantiate(TheActualBullet, BulletSpawn.position, BulletSpawn.rotation);
 					ammo--;
 					Debug.Log(string.Format(" Firing weapon 2. It has {0} ammo left", ammo));
 				}
@@ -126,6 +153,8 @@ public class player : MonoBehaviour
 
 
 	}
+
+
 
 	private void Reload(int weapon)
 	{
@@ -156,26 +185,43 @@ public class player : MonoBehaviour
 		MachineGun.weapon = 2;
 		MachineGun.ammo = 20;
 		MachineGun.fireRate = 0.1f;
+
+		Weapon = 1;
 	}
 
 	void Update()
 	{
 		if (Input.GetKey(KeyCode.W))
+		{
 			move(Vector3.up);
+			FireDirection = 3;
+		}
 		if (Input.GetKey(KeyCode.D))
+		{
 			move(Vector3.right);
+			FireDirection = 1;
+		}
 		if (Input.GetKey(KeyCode.A))
+		{
 			move(-Vector3.right);
+			FireDirection = 2;
+		}
 		if (Input.GetKey(KeyCode.S))
+		{
 			move(-Vector3.up);
+			FireDirection = 4;
+		}
 		if (Input.GetMouseButtonDown(0))
-			FireWeapon(weapon);
+			FireWeapon(Weapon, FireDirection);
 		if (Input.GetKeyDown(KeyCode.R))
 			Reload(Weapon);
-		if (Input.GetKeyDown(KeyCode.Keypad1))
+		if (Input.GetKeyDown(KeyCode.Alpha1))
 			Weapon = 1;
-		if (Input.GetKeyDown(KeyCode.Keypad2))
+		if (Input.GetKeyDown(KeyCode.Alpha2))
 			Weapon = 2;
+
+
 	}
+
 
 }
