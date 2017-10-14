@@ -10,15 +10,6 @@ public class gameController : MonoBehaviour
 	public string controlRight = "d";
 	public player CurrentPlayer;
 
-	void Update()
-	{
-		HandleUserInput();
-	}
-	void HandleUserInput()
-	{
-		var moveAmt = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-		CurrentPlayer.move(moveAmt);
-	}
 	public void MovePlayer(string direction)
 	{
 		Debug.Log("move player: " + direction);

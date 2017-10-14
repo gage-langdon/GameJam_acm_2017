@@ -1,4 +1,4 @@
-var app = require('http').createServer(onHttpRequest)
+var app = require('http').createServer()
 var io = require('socket.io')(app);
 var uuid = require('uuid/v1');
 
@@ -8,37 +8,40 @@ var currentPlayers = [];
 
 io.on('connection', (socket) => {
 	console.log('player connected ' + socket.id);
-	onPlayerJoin(socket);
 
-	socket.on('OnButtonDown', (data) => {
-		console.log('button down', data);
-		io.emit("ButtonDown", data);
+	socket.on('OnButtonDown', ({ button }) => {
+		let { name, id } = getPlayerByID(socket.id);
+		let event = {
+			playerID: id,
+			playerName: name,
+			button
+		}
+		console.log(event);
+		io.emit("ButtonDown", event);
 	});
+	socket.on('JoinGame', ({ name }) => {
+		addPlayer(socket, name);
+	})
 });
-function onHttpRequest(req, res) {
-	res.end('hi');
+
+const getPlayerByName = (playerName) => {
+	return currentPlayers.find(({ name }) => playerName === name);
 }
-function onPlayerJoin(socket) {
-	let player = {
+const getPlayerByID = (playerID) => {
+	return currentPlayers.find(({ id }) => playerID === id);
+}
+function addPlayer(socket, name) {
+	let newPlayer = {
+		name,
 		id: socket.id
 	}
-	currentPlayers.push(player);
+	currentPlayers.push(newPlayer);
 	socket.join("room1");
-	socket.broadcast.emit("player-join", {
-		playerID: player.id
+	io.emit('NewPlayer', {
+		playerID: newPlayer.id,
+		playerName: newPlayer.name
 	});
-	socket.emit('joined-game', {
-		playerID: player.id
-	});
-
-	// populate players for new client
-	currentPlayers
-		.filter(x => x.id != socket.id)
-		.forEach((player) => {
-			socket.emit('player-join', {
-				playerID: player.id
-			});
-		});
+	console.log('new player', newPlayer);
 }
 app.listen('8080', () => {
 	console.log('listening on 8080')
