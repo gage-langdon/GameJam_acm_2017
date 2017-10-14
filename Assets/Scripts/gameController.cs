@@ -4,39 +4,25 @@ using UnityEngine;
 
 public class gameController : MonoBehaviour
 {
-	public string controlUp = "w";
-	public string controlDown = "s";
-	public string controlLeft = "a";
-	public string controlRight = "d";
-	public player CurrentPlayer;
+	public EnemySpawner Spawner;
 
-	public void MovePlayer(string direction)
+	private bool isGameRunning = false;
+
+	void Start()
 	{
-		Debug.Log("move player: " + direction);
-
-		if (direction == "up") Debug.Log("test test");
-
-		Vector3 moveDir = new Vector3(0f, 0f, 0f);
-		switch (direction.ToString())
+		StartGame();
+	}
+	void StartGame()
+	{
+		isGameRunning = true;
+		StartCoroutine(SpawnEnemies());
+	}
+	IEnumerator SpawnEnemies()
+	{
+		while (isGameRunning)
 		{
-			case "up":
-				Debug.Log("hit up");
-				moveDir = new Vector3(0f, 1f, 0f);
-				break;
-			case "down":
-				Debug.Log("hit down");
-				moveDir = new Vector3(0f, -1f, 0f);
-				break;
-			case "left":
-				Debug.Log("hit left");
-				moveDir = new Vector3(-1f, 0f, 0f);
-				break;
-			case "right":
-				Debug.Log("hit right");
-				moveDir = new Vector3(1f, 0f, 0f);
-				break;
+			Spawner.spawnEnemy();
+			yield return new WaitForSeconds(1);
 		}
-		Debug.Log(moveDir);
-		CurrentPlayer.move(moveDir);
 	}
 }
