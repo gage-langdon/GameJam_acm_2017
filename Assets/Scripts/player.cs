@@ -27,6 +27,12 @@ public class player : MonoBehaviour
     private int ammo;
     private int weapon = 1;
     private float nextFire = 0.0F;
+    public GameObject TheActualBullet;
+    public Transform BulletSpawn;
+
+    
+
+
 
     public struct WeaponSystem
     {
@@ -90,6 +96,7 @@ public class player : MonoBehaviour
                 if(ammo > 0 && Time.time > nextFire)
                 {
                     nextFire = Time.time + fireRate;
+                    Instantiate(TheActualBullet, BulletSpawn.position, BulletSpawn.rotation);
                     ammo--;
                     Debug.Log(string.Format(" Firing weapon 1. It has {0} ammo left", ammo));
                 }
@@ -108,6 +115,7 @@ public class player : MonoBehaviour
                 if (ammo > 0 && Time.time > nextFire)
                 {
                     nextFire = Time.time + fireRate;
+                    Instantiate(TheActualBullet, BulletSpawn.position, BulletSpawn.rotation);
                     ammo--;
                     Debug.Log(string.Format(" Firing weapon 2. It has {0} ammo left", ammo));
                 }
@@ -128,6 +136,8 @@ public class player : MonoBehaviour
 
        
     }
+
+    
 
     private void Reload(int weapon)
     {
@@ -158,6 +168,8 @@ public class player : MonoBehaviour
         MachineGun.weapon = 2;
         MachineGun.ammo = 20;
         MachineGun.fireRate = 0.1f;
+
+        Weapon = 1;
     }
 
     void Update()
@@ -171,13 +183,14 @@ public class player : MonoBehaviour
         if (Input.GetKey(KeyCode.S))
             move(-Vector3.up);
         if (Input.GetMouseButtonDown(0))
-            FireWeapon(weapon);
+            FireWeapon(Weapon);
         if (Input.GetKeyDown(KeyCode.R))
             Reload(Weapon);
-        if (Input.GetKeyDown(KeyCode.Keypad1))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
             Weapon = 1;
-        if (Input.GetKeyDown(KeyCode.Keypad2))
+        if (Input.GetKeyDown(KeyCode.Alpha2))
             Weapon = 2;
+        
     }
 
 }
