@@ -2,6 +2,7 @@ var app = require('http').createServer(onHttpRequest)
 var io = require('socket.io')(app);
 var uuid = require('uuid/v1');
 
+// 8080
 
 var currentPlayers = [];
 

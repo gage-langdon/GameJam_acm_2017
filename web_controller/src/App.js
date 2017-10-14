@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import SocketIO from './socket/index';
 import { Holdable, defineHold } from 'react-touch';
 
+// 3000
+
 const BTN = {
 	up: 'up',
 	down: 'down',
