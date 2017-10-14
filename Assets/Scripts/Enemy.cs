@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-	private float speed = 0.2f;
+	private float speed = 0.1f;
 	private bool hasHitMiddle = false;
 
 	public float Speed

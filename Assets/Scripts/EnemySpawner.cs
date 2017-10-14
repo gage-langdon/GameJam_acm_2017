@@ -19,8 +19,12 @@ public class EnemySpawner : MonoBehaviour
 	{
 		int rand = Random.Range(0, Spawners.Length);
 		Vector3 spawnPos = new Vector3(Spawners[rand].position.x, Spawners[rand].position.y, Spawners[rand].position.z);
-		GameObject newEnemy = GameObject.Instantiate(PinataPrefab, spawnPos, Quaternion.identity);
+		GameObject newEnemy = GameObject.Instantiate(PinataPrefab, spawnPos, PinataPrefab.transform.rotation);
 		newEnemy.transform.parent = GameObject.Find("Enemies").transform;
+
+		float loc = getRelativePos(newEnemy.transform.position);
+		if (loc < 1)
+			newEnemy.transform.Rotate(0f, 0f, 180f);
 
 
 		Enemies.Add(newEnemy.GetComponent<Enemy>());
@@ -35,23 +39,23 @@ public class EnemySpawner : MonoBehaviour
 				{
 					if (e.transform)
 					{
-						int middleOfScreen = Screen.width / 2;
-						Vector3 eWorldPos = Camera.current.WorldToScreenPoint(e.transform.position);
-						float enemyPos = eWorldPos.x;
-						float moveAmount = 1f;
-						if (enemyPos > middleOfScreen)
-							moveAmount = -1f;
-						else if (enemyPos == middleOfScreen)
-							e.HasHitMiddle = true;
-
-						moveAmount *= e.Speed;
-						if (!e.HasHitMiddle)
-							e.move(moveAmount);
+						float enemyPos = getRelativePos(e.transform.position);
+						float moveAmount = enemyPos *= e.Speed;
+						e.move(moveAmount);
 					}
 				}
 			}
 			yield return new WaitForSeconds(0.1f);
 		}
+	}
+	int getRelativePos(Vector3 pos)
+	{
+		int middleOfScreen = Screen.width / 2;
+		Vector3 eWorldPos = Camera.main.WorldToScreenPoint(pos);
+		float enemyPos = eWorldPos.x;
+		if (enemyPos < middleOfScreen) return 1;
+		else if (enemyPos > middleOfScreen) return -1;
+		else return 0;
 	}
 
 }
