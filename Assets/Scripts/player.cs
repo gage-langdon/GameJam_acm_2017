@@ -22,22 +22,27 @@ public class player : MonoBehaviour
 
 
 
-    private float speed = 1.0f;
+    private float speed = 3.0f;
     private int health = 5;
-    private int ammo = 100;
-    private int weapon;
+    private int ammo;
+    private int weapon = 1;
+    private float nextFire = 0.0F;
 
     public struct WeaponSystem
     {
         public int weapon, ammo;
+        public float fireRate;
 
-        public WeaponSystem(int x1, int x2)
+        public WeaponSystem(int x1, ref int x2, float x3)
         {
             weapon = x1;
             ammo = x2;
-
+            fireRate = x3;
         }
     }
+
+    WeaponSystem Pistol;
+    WeaponSystem MachineGun;
 
     public int Health
     {
@@ -67,16 +72,48 @@ public class player : MonoBehaviour
 		transform.position += moveAmt * speed * Time.deltaTime;
 	}
 
-    private void FireWeapon(int weapon, int ammo)
+    private void FireWeapon( int weapon)
+    {
+        if (weapon == 1)
+            Fire(Pistol.weapon, ref Pistol.ammo, Pistol.fireRate);
+        else if (weapon == 2)
+            Fire(MachineGun.weapon, ref MachineGun.ammo, MachineGun.fireRate);
+        else
+            return;
+    }
+
+    private void Fire(int weapon, ref int ammo, float fireRate)
     {
         switch (weapon)
         {
             case 1:
-                // ammo > 0 ? Debug.Log(string.Format(" Firing weapon 1. It has {0} ammo left", ammo)) : Debug.Log("Out of ammo!");
-                if(ammo > 0)
+                if(ammo > 0 && Time.time > nextFire)
                 {
+                    nextFire = Time.time + fireRate;
+                    ammo--;
                     Debug.Log(string.Format(" Firing weapon 1. It has {0} ammo left", ammo));
+                }
+                else if (ammo > 0)
+                {
+                    Debug.Log("delay");
+                }
+                else
+                {
+                    Debug.Log("Out of ammo!");
+                }
 
+                break;
+
+            case 2:
+                if (ammo > 0 && Time.time > nextFire)
+                {
+                    nextFire = Time.time + fireRate;
+                    ammo--;
+                    Debug.Log(string.Format(" Firing weapon 2. It has {0} ammo left", ammo));
+                }
+                else if (ammo > 0)
+                {
+                    Debug.Log("delay");
                 }
                 else
                 {
@@ -92,15 +129,55 @@ public class player : MonoBehaviour
        
     }
 
-    void FixedUpdate()
+    private void Reload(int weapon)
+    {
+        switch(weapon)
+        {
+            case 1:
+                Pistol.ammo = 8;
+                Debug.Log("reloaded pistol");
+                break;
+            case 2:
+                MachineGun.ammo = 20;
+                Debug.Log("reloaded machine gun");
+                break;
+            default:
+                Debug.Log("nothing reloaded");
+                break;
+        }
+    }
+   
+
+    void Start()
+    {
+        
+        Pistol.weapon = 1;
+        Pistol.ammo = 8;
+        Pistol.fireRate = 0.5f;
+
+        MachineGun.weapon = 2;
+        MachineGun.ammo = 20;
+        MachineGun.fireRate = 0.1f;
+    }
+
+    void Update()
     {
         if (Input.GetKey(KeyCode.W))
-            move(Vector3.forward);
+            move(Vector3.up);
         if (Input.GetKey(KeyCode.D))
             move(Vector3.right);
         if (Input.GetKey(KeyCode.A))
             move(-Vector3.right);
         if (Input.GetKey(KeyCode.S))
-            move(-Vector3.forward);
+            move(-Vector3.up);
+        if (Input.GetMouseButtonDown(0))
+            FireWeapon(weapon);
+        if (Input.GetKeyDown(KeyCode.R))
+            Reload(Weapon);
+        if (Input.GetKeyDown(KeyCode.Keypad1))
+            Weapon = 1;
+        if (Input.GetKeyDown(KeyCode.Keypad2))
+            Weapon = 2;
     }
+
 }
