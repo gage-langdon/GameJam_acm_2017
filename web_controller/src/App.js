@@ -28,7 +28,7 @@ class App extends Component {
 		this.onJoinGame = this.onJoinGame.bind(this);
 
 		this.state = {
-			name: 'gage',
+			name: '',
 			isJoinedGame: false
 		}
 	}
@@ -102,7 +102,7 @@ class App extends Component {
 				</div>
 		);
 
-		if (true || this.state.isJoinedGame)
+		if (false && this.state.isJoinedGame)
 			return (
 				<div className="container-fluid">
 					<div className="row">
@@ -115,7 +115,7 @@ class App extends Component {
 										config={holdConfig}
 										onHoldProgress={() => this.onControllerInput(BTN.up)}
 									>
-										<img className="img-responsive" src={UpArrow} style={dPadImgStyleU} />
+										Up
 									</Holdable>
 								</div>
 								<div className="col-4 p-0 m-0" />
@@ -125,7 +125,7 @@ class App extends Component {
 										config={holdConfig}
 										onHoldProgress={() => this.onControllerInput(BTN.left)}
 									>
-										<img src={LeftArrow} style={dPadImgStyleL} />
+										left
 									</Holdable>
 								</div>
 								<div className="col-4 p-0 m-0" />
@@ -134,7 +134,7 @@ class App extends Component {
 										config={holdConfig}
 										onHoldProgress={() => this.onControllerInput(BTN.right)}
 									>
-										<img src={RightArrow} style={dPadImgStyleR} />
+										Right
 									</Holdable>
 								</div>
 								{/* bottom */}
@@ -144,7 +144,7 @@ class App extends Component {
 										config={holdConfig}
 										onHoldProgress={() => this.onControllerInput(BTN.down)}
 									>
-										<img src={DownArrow} style={dPadImgStyleD} />
+										Down
 									</Holdable>
 								</div>
 								<div className="col-4 p-0 m-0" />

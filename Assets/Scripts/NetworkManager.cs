@@ -34,18 +34,28 @@ public class NetworkManager : MonoBehaviour
 			{
 				case "up":
 					moveDir = new Vector3(0f, 1f, 0f);
+					foundPlayer.setAimDirection("up");
+					foundPlayer.move(moveDir);
 					break;
 				case "down":
 					moveDir = new Vector3(0f, -1f, 0f);
+					foundPlayer.setAimDirection("down");
+					foundPlayer.move(moveDir);
 					break;
 				case "left":
 					moveDir = new Vector3(-1f, 0f, 0f);
+					foundPlayer.setAimDirection("left");
+					foundPlayer.move(moveDir);
 					break;
 				case "right":
 					moveDir = new Vector3(1f, 0f, 0f);
+					foundPlayer.setAimDirection("right");
+					foundPlayer.move(moveDir);
+					break;
+				case "fire":
+					foundPlayer.FireWeapon(1);
 					break;
 			}
-			foundPlayer.move(moveDir);
 		});
 	}
 	player getPlayer(string id)

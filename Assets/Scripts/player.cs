@@ -49,36 +49,32 @@ public class player : MonoBehaviour
 		get { return fireDirection; }
 		set { fireDirection = value; }
 	}
-
 	public int Health
 	{
 		get { return health; }
 		set { health = value; }
 	}
-
 	public float Speed
 	{
 		get { return speed; }
 		set { speed = value; }
 	}
-
 	public int Ammo
 	{
 		get { return ammo; }
 		set { ammo = value; }
 	}
-
 	public int Weapon
 	{
 		get { return weapon; }
 		set { weapon = value; }
 	}
-	public void move(Vector3 moveAmt)
-	{
-		transform.position += moveAmt * speed * Time.deltaTime;
-	}
 
-	private void FireWeapon(int weapon, int fireDirection)
+	public void move(Vector3 moveDir)
+	{
+		transform.position += moveDir * speed * Time.deltaTime;
+	}
+	public void FireWeapon(int weapon)
 	{
 		if (weapon == 1)
 			Fire(Pistol.weapon, ref Pistol.ammo, Pistol.fireRate, fireDirection);
@@ -87,7 +83,6 @@ public class player : MonoBehaviour
 		else
 			return;
 	}
-
 	private void Fire(int weapon, ref int ammo, float fireRate, int fireDirection)
 	{
 		Transform BulletSpawn;
@@ -174,6 +169,26 @@ public class player : MonoBehaviour
 		}
 	}
 
+	public void setAimDirection(string dir)
+	{
+		switch (dir)
+		{
+			case "up":
+				fireDirection = 3;
+				break;
+			case "down":
+				fireDirection = 4;
+				break;
+			case "left":
+				fireDirection = 2;
+				break;
+			case "right":
+				fireDirection = 1;
+				break;
+		}
+		Debug.Log("dir " + fireDirection);
+	}
+
 
 	void Start()
 	{
@@ -212,7 +227,7 @@ public class player : MonoBehaviour
 			FireDirection = 4;
 		}
 		if (Input.GetMouseButtonDown(0))
-			FireWeapon(Weapon, FireDirection);
+			FireWeapon(Weapon);
 		if (Input.GetKeyDown(KeyCode.R))
 			Reload(Weapon);
 		if (Input.GetKeyDown(KeyCode.Alpha1))

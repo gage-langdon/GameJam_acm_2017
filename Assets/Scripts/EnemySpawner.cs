@@ -44,7 +44,7 @@ public class EnemySpawner : MonoBehaviour
 					}
 				}
 			}
-			yield return new WaitForSeconds(0.1f);
+			yield return new WaitForSeconds(0.005f);
 		}
 	}
 	int getRelativePos(Vector3 pos)
