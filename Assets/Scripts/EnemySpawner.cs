@@ -36,11 +36,19 @@ public class EnemySpawner : MonoBehaviour
 			{
 				foreach (Enemy e in Enemies)
 				{
-					if (e.transform)
+					if (e && e.transform)
 					{
 						float enemyPos = getRelativePos(e.transform.position);
 						float moveAmount = enemyPos *= e.Speed;
 						e.move(moveAmount);
+
+
+						if (enemyPos == 1)
+						{
+							e.HasHitMiddle = true;
+							Debug.Log("has hit middle");
+						}
+
 					}
 				}
 			}

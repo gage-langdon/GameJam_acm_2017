@@ -22,7 +22,7 @@ public class gameController : MonoBehaviour
 		while (isGameRunning)
 		{
 			Spawner.spawnEnemy();
-			yield return new WaitForSeconds(1);
+			yield return new WaitForSeconds(3);
 		}
 	}
 }

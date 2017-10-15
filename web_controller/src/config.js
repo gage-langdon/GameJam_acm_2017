@@ -1,3 +1,3 @@
 module.exports = {
-	socket: 'http://669cc05f.ngrok.io'
+	socket: 'http://da110a2e.ngrok.io'
 }

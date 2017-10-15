@@ -9,6 +9,14 @@ import RightArrow from './images/right-arrow.png';
 import aButton from './images/b.png';
 import bButton from './images/a.png';
 
+var keyDown = {
+	'up': false,
+	'down': false,
+	'left': false,
+	'right': false,
+	'fire': false
+}
+
 // 3000
 
 const BTN = {
@@ -37,7 +45,61 @@ class App extends Component {
 			SocketIO.emit('OnButtonDown', { button });
 	}
 	componentWillMount() {
-		this.onJoinGame();
+		document.addEventListener('keydown', (event) => {
+			const keyName = event.key;
+			switch (keyName) {
+				case "w":
+					keyDown.up = true;
+					break;
+				case "d":
+					keyDown.right = true;
+					break;
+				case "s":
+					keyDown.down = true;
+					break;
+				case "a":
+					keyDown.left = true;
+					break;
+				case " ":
+					keyDown.fire = true;
+					break;
+			}
+		});
+		document.addEventListener('keyup', (event) => {
+			const keyName = event.key;
+			switch (keyName) {
+				case "w":
+					keyDown.up = false;
+				case "d":
+					keyDown.right = false;
+					break;
+				case "s":
+					keyDown.down = false;
+					break;
+				case "a":
+					keyDown.left = false;
+					break;
+				case " ":
+					keyDown.fire = false;
+					break;
+			}
+		});
+		this.checkForAction();
+	}
+	checkForAction() {
+		if (keyDown.up)
+			this.onControllerInput(BTN.up);
+		if (keyDown.left)
+			this.onControllerInput(BTN.left);
+		if (keyDown.right)
+			this.onControllerInput(BTN.right);
+		if (keyDown.down)
+			this.onControllerInput(BTN.down);
+		if (keyDown.fire)
+			this.onControllerInput(BTN.fire)
+		setTimeout(() => {
+			this.checkForAction();
+		}, 1);
 	}
 	async onJoinGame() {
 		console.log('join game');
@@ -187,19 +249,24 @@ class App extends Component {
 			return (
 				<div className="container-fluid" >
 					<div className="row align-items-center justify-content-center">
-						<div className="col-6 text-center pt-4">
-							<input
-								type="text"
-								className="form-control"
-								placeholder="Username"
-								value={this.state.name}
-								onChange={({ target }) => this.setState({ name: target.value })} />
-							<button
-								className="btn btn-primary"
-								onClick={() => this.onJoinGame()}>
-								Join Game
+						{!this.state.isJoinedGame ?
+							<div className="col-6 text-center pt-4">
+								<input
+									type="text"
+									className="form-control"
+									placeholder="Username"
+									value={this.state.name}
+									onChange={({ target }) => this.setState({ name: target.value })} />
+								<button
+									className="btn btn-primary"
+									onClick={() => this.onJoinGame()}>
+									Join Game
 							</button>
-						</div>
+							</div>
+							: <div className="col-6 text-center pt-4">
+								<p>WASD - move</p>
+								<p>SPACE - shoot</p>
+							</div>}
 					</div>
 				</div>
 			)

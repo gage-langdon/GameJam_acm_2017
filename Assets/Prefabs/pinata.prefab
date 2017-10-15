@@ -164,6 +164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4390487476681004}
   - component: {fileID: 114045925061213306}
+  - component: {fileID: 65938650350835430}
   m_Layer: 0
   m_Name: Pinata
   m_TagString: Untagged
@@ -333,7 +334,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1780743565121712}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -7.0007615, y: -9.511299, z: 1.0173231}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4233398901979974}
@@ -1119,6 +1120,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65938650350835430
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1780743565121712}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.978899, y: 3.1064136, z: 1}
+  m_Center: {x: 0.18622589, y: 0.08879691, z: -3.7370183e-16}
 --- !u!114 &114045925061213306
 MonoBehaviour:
   m_ObjectHideFlags: 1

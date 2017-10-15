@@ -11,13 +11,16 @@ io.on('connection', (socket) => {
 
 	socket.on('OnButtonDown', ({ button }) => {
 		let { name, id } = getPlayerByID(socket.id);
-		let event = {
-			playerID: id,
-			playerName: name,
-			button
+		console.log(name, id, button);
+		if (id) {
+			let event = {
+				playerID: id,
+				playerName: name,
+				button
+			}
+			console.log(event);
+			io.emit("ButtonDown", event);
 		}
-		console.log(event);
-		io.emit("ButtonDown", event);
 	});
 	socket.on('JoinGame', ({ name }) => {
 		addPlayer(socket, name);
@@ -28,7 +31,7 @@ const getPlayerByName = (playerName) => {
 	return currentPlayers.find(({ name }) => playerName === name);
 }
 const getPlayerByID = (playerID) => {
-	return currentPlayers.find(({ id }) => playerID === id);
+	return currentPlayers.find(({ id }) => playerID === id) || {};
 }
 function addPlayer(socket, name) {
 	let newPlayer = {

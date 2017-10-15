@@ -2,25 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class fence : MonoBehaviour {
-	
+public class fence : MonoBehaviour
+{
+
 	public GameObject model;
 	public int health;
 
 	// Use this for initialization
-	void Start () {
-		health = 3; 
+	void Start()
+	{
+		health = 1;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (health > 0) {
-			model.SetActive (true); 
-			health = 3; 
-		}
+	void OnTriggerEnter(Collider col)
+	{
+		Debug.Log("collided with " + col.transform.name);
 
-		if (health <= 0) {
-			model.SetActive (false); 
+		Enemy enemy = col.GetComponent<Enemy>();
+		if (enemy)
+		{
+			health--;
+			if (health <= 0)
+			{
+				GameObject.Destroy(this.transform.gameObject);
+			}
 		}
 	}
 }

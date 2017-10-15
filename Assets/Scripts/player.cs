@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class player : MonoBehaviour
 {
-	private float speed = 3.0f;
+	private float speed = 1f;
 	private int health = 5;
 	private int ammo;
 	private int weapon = 1;
@@ -110,15 +110,15 @@ public class player : MonoBehaviour
 					GameObject bullet = Instantiate(TheActualBullet, BulletSpawn.position, BulletSpawn.rotation);
 
 					ammo--;
-					Debug.Log(string.Format(" Firing weapon 1. It has {0} ammo left", ammo));
+					//Debug.Log(string.Format(" Firing weapon 1. It has {0} ammo left", ammo));
 				}
 				else if (ammo > 0)
 				{
-					Debug.Log("delay");
+					//Debug.Log("delay");
 				}
 				else
 				{
-					Debug.Log("Out of ammo!");
+					//Debug.Log("Out of ammo!");
 				}
 
 				break;
@@ -129,15 +129,15 @@ public class player : MonoBehaviour
 					nextFire = Time.time + fireRate;
 					Instantiate(TheActualBullet, BulletSpawn.position, BulletSpawn.rotation);
 					ammo--;
-					Debug.Log(string.Format(" Firing weapon 2. It has {0} ammo left", ammo));
+					//Debug.Log(string.Format(" Firing weapon 2. It has {0} ammo left", ammo));
 				}
 				else if (ammo > 0)
 				{
-					Debug.Log("delay");
+					//Debug.Log("delay");
 				}
 				else
 				{
-					Debug.Log("Out of ammo!");
+					//Debug.Log("Out of ammo!");
 				}
 
 				break;
@@ -157,14 +157,14 @@ public class player : MonoBehaviour
 		{
 			case 1:
 				Pistol.ammo = 8;
-				Debug.Log("reloaded pistol");
+				//.Log("reloaded pistol");
 				break;
 			case 2:
 				MachineGun.ammo = 20;
-				Debug.Log("reloaded machine gun");
+				//Debug.Log("reloaded machine gun");
 				break;
 			default:
-				Debug.Log("nothing reloaded");
+				//Debug.Log("nothing reloaded");
 				break;
 		}
 	}
@@ -186,7 +186,7 @@ public class player : MonoBehaviour
 				fireDirection = 1;
 				break;
 		}
-		Debug.Log("dir " + fireDirection);
+		//.Log("dir " + fireDirection);
 	}
 
 
